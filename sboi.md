@@ -29,25 +29,24 @@ classDiagram
     }
 
     class Failure {
-        -FailureType failureType
+        -FailureType type
         -int deviceId
         -DateTime date
-        +Failure(FailureType failureType, int deviceId, DateTime date)
+        +Failure(FailureType type, int deviceId, DateTime date)
         +bool IsSerious()
         +bool IsBeforeDate(DateTime targetDate)
-        +FailureType FailureType$
+        +FailureType Type$
         +int DeviceId$
         +DateTime Date$
     }
 
     class ReportMaker {
-        +List~string~ FindDevicesFailedBeforeDate(DateTime targetDate, Failure[] failures, Device[] devices)$
-        +List~string~ FindDevicesFailedBeforeDateObsolete(int day, int month, int year, int[] failureTypes, int[] deviceId, object[][] times, List~Dictionary~string, object~~ devices)$
+        +List~string~ FindDevicesFailedBeforeDate(DateTime targetDate, Device device, Failure failure)$
+        +List~string~ FindDevicesFailedBeforeDateObsolete(int day, int month, int year, int[] failureTypes, int[] deviceId, object[] times, List~Dictionary~string, object~~ devices)$
     }
 
     ReportMaker ..> Failure : Зависимость
     ReportMaker ..> Device : Зависимость
     ReportMaker ..> FailureType : Зависимость
-    Failure ..> Device : Зависимость
     Failure ..> FailureType : Зависимость
 ```
