@@ -76,46 +76,48 @@ class ResourcePile {
 }
 
 class Interaction {
-    +Make(Player player, IMapObject mapObject)
+    +Make(Player, IMapObject)
 }
 
 class Player {
     +Id : int
-    +CanBeat(Army army)
-    +Consume(Treasure treasure)
-    +Die()
 }
 
 class Army {
     +Strength : int
-    +Health : int
 }
 
 class Treasure {
     +Value : int
-    +Type : string
 }
 
-IMapObject <|.. Dwelling : объект карты
-IMapObject <|.. Mine : объект карты
-IMapObject <|.. Creeps : объект карты
-IMapObject <|.. Wolves : объект карты
-IMapObject <|.. ResourcePile : объект карты
+IMapObject <|.. Dwelling
+IMapObject <|.. Mine
+IMapObject <|.. Creeps
+IMapObject <|.. Wolves
+IMapObject <|.. ResourcePile
 
-IOwnable <|.. Dwelling : может владеть игрок
-IOwnable <|.. Mine : может владеть игрок
+IOwnable <|.. Dwelling
+IOwnable <|.. Mine
 
-IHaveArmy <|.. Mine : содержит армию
-IHaveArmy <|.. Creeps : содержит армию
-IHaveArmy <|.. Wolves : содержит армию
+IHaveArmy <|.. Mine
+IHaveArmy <|.. Creeps
+IHaveArmy <|.. Wolves
 
-IHaveTreasure <|.. Mine : хранит награду
-IHaveTreasure <|.. Creeps : хранит награду
-IHaveTreasure <|.. ResourcePile : хранит награду
+IHaveTreasure <|.. Mine
+IHaveTreasure <|.. Creeps
+IHaveTreasure <|.. ResourcePile
 
-Interaction ..> IMapObject : обрабатывает объект карты
-Interaction ..> IOwnable : назначает владельца
-Interaction ..> IHaveArmy : проверяет бой
-Interaction ..> IHaveTreasure : забирает награду
-Interaction ..> Player : управляет игроком
+Mine o-- Army : содержит
+Mine o-- Treasure : награда
+
+Creeps o-- Army : содержит
+Creeps o-- Treasure : награда
+
+Wolves o-- Army : содержит
+
+ResourcePile o-- Treasure : содержит
+
+Interaction ..> Player : использует
+Interaction ..> IMapObject : обрабатывает
 ```
