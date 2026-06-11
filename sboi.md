@@ -24,8 +24,8 @@ classDiagram
         -int deviceId
         -string name
         +Device(int deviceId, string name)
-        +DeviceId int$
-        +Name string$
+        +int DeviceId$
+        +string Name$
     }
 
     class Failure {
@@ -33,20 +33,21 @@ classDiagram
         -int deviceId
         -DateTime date
         +Failure(FailureType failureType, int deviceId, DateTime date)
-        +IsSerious() bool
-        +IsBeforeDate(DateTime targetDate) bool
+        +bool IsSerious()
+        +bool IsBeforeDate(DateTime targetDate)
         +FailureType FailureType$
-        +DeviceId int$
-        +Date DateTime$
+        +int DeviceId$
+        +DateTime Date$
     }
 
     class ReportMaker {
-        +FindDevicesFailedBeforeDate(DateTime targetDate, Failure[] failures, Device[] devices) List~string~
-        +FindDevicesFailedBeforeDateObsolete(int day, int month, int year, int[] failureTypes, int[] deviceId, object[][] times, List~Dictionary~string, object~~ devices) List~string~
+        +List~string~ FindDevicesFailedBeforeDate(DateTime targetDate, Failure[] failures, Device[] devices)$
+        +List~string~ FindDevicesFailedBeforeDateObsolete(int day, int month, int year, int[] failureTypes, int[] deviceId, object[][] times, List~Dictionary~string, object~~ devices)$
     }
 
-    ReportMaker ..> Failure : Зависимость(параметр метода)
-    ReportMaker ..> Device : Зависимость(параметр метода)
-    Failure --> Device : Ассоциация(DeviceId в поле)
-    Failure --> FailureType : Ассоциация(FailureType в поле)
+    ReportMaker ..> Failure : Зависимость
+    ReportMaker ..> Device : Зависимость
+    ReportMaker ..> FailureType : Зависимость
+    Failure ..> Device : Зависимость
+    Failure ..> FailureType : Зависимость
 ```
