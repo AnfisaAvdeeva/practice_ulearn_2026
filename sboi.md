@@ -1,10 +1,10 @@
 # Практика: Сбои 
 
 ## 1. Описание предметной области и сущностей
-Device - устройство, хранит идентификатор устройства DeviceId и его название Name. 
-Failure - сбой, включает тип сбоя FailureType, DeviceId и дату возникновения Date. Предоставляет методы IsSerious() для определения серьёзности сбоя и IsBeforeDate() для проверки даты.
-FailureType - четыре типа сбоев UnexpectedShutdown (0), ShortNonResponding (1), HardwareFailures (2), ConnectionProblems (3). 
-ReportMaker - отчёт об устройствах с критическими сбоями до указанной даты. Новый метод принимает дату, массив сбоев и массив устройств. 
+Device - устройство, хранит идентификатор DeviceId и название Name.
+Failure - содержит тип сбоя FailureType, идентификатор устройства DeviceId и дату Date. Предоставляет методы IsSerious() и IsBeforeDate().
+FailureType - типы сбоев UnexpectedShutdown (0), ShortNonResponding (1), HardwareFailures (2), ConnectionProblems (3).
+ReportMaker - статический метод FindDevicesFailedBeforeDate принимает дату, одно устройство Device и один сбой Failure. 
 
 ## 2. Диаграмма классов (Mermaid)
 
