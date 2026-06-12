@@ -89,10 +89,10 @@ classDiagram
     IVisitor~T~ <|.. BoundingBoxVisitor : реализует
     IVisitor~T~ <|.. BoxifyVisitor : реализует
 
-    Body *-- Vector3 : "содержит (композиция)"
+    Body *-- Vector3 : содержит (композиция)
 
-    CompoundBody o-- Body : "содержит части (агрегация)"
+    CompoundBody o-- Body : содержит части (агрегация)
 
-    BoundingBoxVisitor ..> RectangularCuboid : "зависимость"
-    BoxifyVisitor ..> BoundingBoxVisitor : "зависимость"
+    BoundingBoxVisitor ..> RectangularCuboid : зависимость
+    BoxifyVisitor ..> BoundingBoxVisitor : зависимость
 ```
