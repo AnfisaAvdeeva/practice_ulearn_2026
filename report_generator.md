@@ -3,10 +3,6 @@
 ## 1. Описание предметной области и сущностей
 Система генерации статистических отчетов о погодных измерениях. Вычисляет статистические показатели (среднее, стандартное отклонение, медиану) по двум параметрам (температура и влажность) за несколько дней и выводит результаты в форматах HTML, Markdown.
 
-Measurement - исходное погодное измерение с температурой и влажностью
-
-MeanAndStd - результат вычисления, хранит среднее и стандартное отклонение
-
 IStatisticsMaker - интерфейс вычислителя статистики, определяет название и метод вычисления
 
 MeanAndStdStatistics - вычисляет среднее и стандартное отклонение, реализует IStatisticsMaker
@@ -73,17 +69,6 @@ classDiagram
         +MakeReport(measurements IEnumerable~Measurement~) string
     }
 
-    class Measurement {
-        +Temperature double
-        +Humidity double
-    }
-
-    class MeanAndStd {
-        +Mean double
-        +Std double
-        +ToString() string
-    }
-
     class ReportMakerHelper {
         <<static>>
         +MeanAndStdHtmlReport(data IEnumerable~Measurement~) string
@@ -97,18 +82,12 @@ classDiagram
     IReportFormatter <|.. HtmlReportFormatter : реализует
     IReportFormatter <|.. MarkdownReportFormatter : реализует
 
-    ReportMaker *-- IReportFormatter : состоит из (передан в конструктор)
-    ReportMaker *-- IStatisticsMaker : состоит из (передан в конструктор)
+    ReportMaker *-- IReportFormatter : композиция
+    ReportMaker *-- IStatisticsMaker : композиция
 
-
-    MeanAndStdStatistics o-- MeanAndStd : возвращает как результат
-
-    ReportMakerHelper ..> ReportMaker : создает экземпляр
-    ReportMakerHelper ..> HtmlReportFormatter : создает экземпляр
-    ReportMakerHelper ..> MarkdownReportFormatter : создает экземпляр
-    ReportMakerHelper ..> MeanAndStdStatistics : создает экземпляр
-    ReportMakerHelper ..> MedianStatistics : создает экземпляр
-
-    ReportMaker ..> Measurement : принимает как параметр
-    ReportMaker ..> MeanAndStd : вызывает ToString()
+    ReportMakerHelper ..> ReportMaker : создает
+    ReportMakerHelper ..> HtmlReportFormatter : создает
+    ReportMakerHelper ..> MarkdownReportFormatter : создает
+    ReportMakerHelper ..> MeanAndStdStatistics : создает
+    ReportMakerHelper ..> MedianStatistics : создает
 ```
