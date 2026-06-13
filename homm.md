@@ -5,8 +5,6 @@ Player - игрок. Он может побеждать армии, получа
 
 Interaction - обработка взаимодействия игрока с объектами карты. 
 
-IMapObject - общий интерфейс для всех объектов карты.
-
 IOwnable - интерфейс объектов, могут принадлежать игроку и иметь владельца.
 
 IHaveArmy - интерфейс объектов, содержат армию и могут участвовать в бою с игроком.
@@ -32,92 +30,90 @@ Treasure - сущность, описывает описывающая нагр�
 
 ```mermaid
 classDiagram
+    direction TB
 
-class IMapObject {
-    <<interface>>
-}
+    class IOwnable {
+        <<interface>>
+        +Owner: int
+    }
 
-class IOwnable {
-    <<interface>>
-    +Owner : int
-}
+    class IHaveArmy {
+        <<interface>>
+        +Army: Army
+    }
 
-class IHaveArmy {
-    <<interface>>
-    +Army : Army
-}
+    class IHaveTreasure {
+        <<interface>>
+        +Treasure: Treasure
+    }
 
-class IHaveTreasure {
-    <<interface>>
-    +Treasure : Treasure
-}
+    class Dwelling {
+        +Owner: int
+    }
 
-class Dwelling {
-    +Owner : int
-}
+    class Mine {
+        +Owner: int
+        +Army: Army
+        +Treasure: Treasure
+    }
 
-class Mine {
-    +Owner : int
-    +Army : Army
-    +Treasure : Treasure
-}
+    class Creeps {
+        +Army: Army
+        +Treasure: Treasure
+    }
 
-class Creeps {
-    +Army : Army
-    +Treasure : Treasure
-}
+    class Wolves {
+        +Army: Army
+    }
 
-class Wolves {
-    +Army : Army
-}
+    class ResourcePile {
+        +Treasure: Treasure
+    }
 
-class ResourcePile {
-    +Treasure : Treasure
-}
+    class Player {
+        +Id: int
+        +CanBeat(Army) bool
+        +Die()
+        +Consume(Treasure)
+    }
 
-class Interaction {
-    +Make(Player, IMapObject)
-}
+    class Army {
+        +Strength: int
+    }
 
-class Player {
-    +Id : int
-}
+    class Treasure {
+        +Value: int
+    }
 
-class Army {
-    +Strength : int
-}
+    class Interaction {
+        <<static>>
+        +Make(Player, object)
+    }
 
-class Treasure {
-    +Value : int
-}
+    IOwnable <|.. Dwelling : реализует
+    IOwnable <|.. Mine : реализует
+    
+    IHaveArmy <|.. Mine : реализует
+    IHaveArmy <|.. Creeps : реализует
+    IHaveArmy <|.. Wolves : реализует
+    
+    IHaveTreasure <|.. Mine : реализует
+    IHaveTreasure <|.. Creeps : реализует
+    IHaveTreasure <|.. ResourcePile : реализует
 
-IMapObject <|.. Dwelling
-IMapObject <|.. Mine
-IMapObject <|.. Creeps
-IMapObject <|.. Wolves
-IMapObject <|.. ResourcePile
+    Mine *-- Army : содержит
+    Mine *-- Treasure : содержит
+    Creeps *-- Army : содержит
+    Creeps *-- Treasure : содержит
+    Wolves *-- Army : содержит
+    ResourcePile *-- Treasure : содержит
 
-IOwnable <|.. Dwelling
-IOwnable <|.. Mine
+    Dwelling --> Player : Owner
 
-IHaveArmy <|.. Mine
-IHaveArmy <|.. Creeps
-IHaveArmy <|.. Wolves
-
-IHaveTreasure <|.. Mine
-IHaveTreasure <|.. Creeps
-IHaveTreasure <|.. ResourcePile
-
-Mine o-- Army : содержит
-Mine o-- Treasure : награда
-
-Creeps o-- Army : содержит
-Creeps o-- Treasure : награда
-
-Wolves o-- Army : содержит
-
-ResourcePile o-- Treasure : содержит
-
-Interaction ..> Player : использует
-Interaction ..> IMapObject : обрабатывает
+    Interaction ..> Player : параметр
+    Interaction ..> IHaveArmy : проверка
+    Interaction ..> IOwnable : проверка
+    Interaction ..> IHaveTreasure : проверка
+    Interaction ..> Army : параметр CanBeat()
+    Interaction ..> Treasure : параметр Consume()
 ```
