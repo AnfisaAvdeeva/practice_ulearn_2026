@@ -2,8 +2,11 @@
 
 ## 1. Описание предметной области и сущностей
 Device - устройство, хранит идентификатор DeviceId и название Name.
+
 Failure - содержит тип сбоя FailureType, идентификатор устройства DeviceId и дату Date. Предоставляет методы IsSerious() и IsBeforeDate().
+
 FailureType - типы сбоев UnexpectedShutdown (0), ShortNonResponding (1), HardwareFailures (2), ConnectionProblems (3).
+
 ReportMaker - статический метод FindDevicesFailedBeforeDate принимает дату, одно устройство Device и один сбой Failure. 
 
 ## 2. Диаграмма классов (Mermaid)
